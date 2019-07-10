@@ -12,32 +12,25 @@
 
    멜론에서는 id 같은게 많음
 
-   
+   .status_code
 
+   ​	400번대 요청문제
 
+   ​	500번대 서버문제
 
+3. enumerate() INDEX와 같이 for
 
+4. 리스트 기본 (03_00)
 
-enumerate
+   ​	https://techbard.tistory.com/2945
 
+5. html 관련 (03_01)
 
+   ​	html (03_ 01) - !tab , h1 , li , ol , ul , p
 
-https://techbard.tistory.com/2945
+   ​	css
 
+   ​	bootstrap
 
+   ​	flask
 
-
-
-html
-
-css
-
-bootstrapk
-
-
-
-4 요청문제
-
-5 서버문제
-
-.status_code
