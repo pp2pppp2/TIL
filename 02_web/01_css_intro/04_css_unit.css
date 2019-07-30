@@ -1,0 +1,17 @@
+h1{
+    color: blue;
+    font-size: 50%;
+}
+div{
+    color: rebeccapurple;
+    font-size: 50%;
+}
+ul{
+    color: rgb(255,215,0);
+    font-size: 2rem;
+}
+
+div > h2{
+    color:seagreen;
+    font-size: 5em;
+}

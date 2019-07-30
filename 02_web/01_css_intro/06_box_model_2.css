@@ -1,0 +1,36 @@
+div{
+    width: 100px;
+    height: 100px;
+}
+
+#div-1{
+    margin-right: auto;
+}
+
+#div-2{
+    margin-left: auto;
+}
+
+#div-3{
+    margin-left: auto;
+    margin-right: auto;
+}
+#div-4{
+    margin: auto;
+}
+
+#div-5{
+    display: none;
+}
+
+#div-6{
+    visibility: hidden;
+}
+
+p{
+    display: inline-block;
+}
+
+body {
+    background-image: url("images/yomi.jpg");
+}

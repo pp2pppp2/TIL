@@ -1,0 +1,22 @@
+/* *{
+    background-color: darkolivegreen;
+    font-size: 25px
+} */
+
+/* ol,ul{
+    list-style-type: square;
+}
+a{
+    text-decoration: underline;
+} */
+/* 
+.favorite{
+    color:palegoldenrod;
+}
+#title{
+    color:royalblue;
+} */
+
+ol > li {
+    color: crimson;
+}
