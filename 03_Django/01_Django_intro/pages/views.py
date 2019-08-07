@@ -5,7 +5,7 @@ import requests
 
 # Create your views here.
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'pages/index.html')
 
 def introduce(request, name):
     student ={
@@ -17,17 +17,17 @@ def introduce(request, name):
         'name' : name,
         'age' : student.get(name),
     }
-    return render(request, 'introduce.html', context)
+    return render(request, 'pages/introduce.html', context)
 
 def image(request):
-    return render(request, 'image.html')
+    return render(request, 'pages/image.html')
 
 # Template Variable 템플릿 변수
 def dinner(request):
     menu = ['족발', '햄버거', '치킨', '어쩌구']
     pick = random.choice(menu)
     context = {'pick': pick }
-    return render(request, 'dinner.html', context )
+    return render(request, 'pages/dinner.html', context )
 
 # Variable Routing (동적 라우팅)
 def hello(request, name, age):
@@ -38,7 +38,7 @@ def hello(request, name, age):
         'age': age,
         'pick': pick, 
     }
-    return render(request, 'hello.html', context )
+    return render(request, 'pages/hello.html', context )
 
 # 실습
 # 1. 동적 라우팅을 활용하여 name 과 age 를 인자로 받아, 자기소개 페이지
@@ -47,7 +47,7 @@ def introself(request, name, age):
         'name': name,
         'age': age,
     }
-    return render(request,'introself.html', context )
+    return render(request,'pages/introself.html', context )
 
 # 2. 두개의 숫자를 인자로 받아 (num1 , num2) 곱셈결과를 출력.
 def mul(request, num1, num2):
@@ -56,7 +56,7 @@ def mul(request, num1, num2):
         'num2': num2,
         'result': num1 * num2,
     }
-    return render(request,'mul.html', context)
+    return render(request,'pages/mul.html', context)
 
 # r 을 받아 널빙 구하시오
 
@@ -66,7 +66,7 @@ def circle(request, r):
     context = {
         'result':result
     }
-    return render(request, 'circle.html', context)
+    return render(request, 'pages/circle.html', context)
 
 # DTL
 def template_language(request):
@@ -84,7 +84,7 @@ def template_language(request):
         'datetimenow' : datetimenow,
     }
 
-    return render(request, 'template_language.html', context )
+    return render(request, 'pages/template_language.html', context )
 
 # 실습 1
 # isbirth
@@ -101,7 +101,7 @@ def isbirth(request):
         'days' : days,
         'months' : months,
     }
-    return render(request, 'isbirth.html', context )
+    return render(request, 'pages/isbirth.html', context )
 
 #회문판별
 def ispal(request, word):
@@ -112,7 +112,7 @@ def ispal(request, word):
     context = {
         'result' : result,
     }
-    return render(request, 'ispal.html', context )
+    return render(request, 'pages/ispal.html', context )
 
 #lotto 로또 번호 추첨
 #lottos -> 1~45 까지 번호중 6개를 랜덤으로 pick
@@ -129,12 +129,12 @@ def lotto(request):
         'real_lottos' : real_lottos,
         'cnt' : cnt,
     }
-    return render(request, 'lotto.html', context )
+    return render(request, 'pages/lotto.html', context )
 
 # Form - GeT
 
 def throw(request):
-    return render(request, 'throw.html')
+    return render(request, 'pages/throw.html')
 
 def catch(request):
     message = request.GET.get('message')
@@ -143,26 +143,26 @@ def catch(request):
         'message' : message,
         'message2' : message2,
     }
-    return render(request, 'catch.html', context )
+    return render(request, 'pages/catch.html', context )
 
 def ping(request):
     text = request.GET.get('text')
     context = {
         'text' : text,
     }
-    return render(request, 'ping.html', context)
+    return render(request, 'pages/ping.html', context)
 
 def pong(request):
     text2 = request.GET.get('text2')
     context = {
         'text2' : text2,
     }
-    return render(request, 'pong.html', context)
+    return render(request, 'pages/pong.html', context)
     
 #8 form get 실습 ascii art
 
 def art(request):
-    return render(request, 'art.html')
+    return render(request, 'pages/art.html')
 
 def result(request):
     word = request.GET.get('word')
@@ -173,11 +173,11 @@ def result(request):
     context = {
         'result' : result,
     }
-    return render(request, 'result.html', context)
+    return render(request, 'pages/result.html', context)
 
 
 def user_new(request):
-    return render(request, 'user_new.html')
+    return render(request, 'pages/user_new.html')
 
 def user_create(request):
     name = request.POST.get('name')
@@ -186,4 +186,9 @@ def user_create(request):
         'name' : name,
         'pwd' : pwd,
     }
-    return render(request, 'user_create.html', context )
+    return render(request, 'pages/user_create.html', context )
+
+#10 정적파일
+
+def static_example(request):
+    return render(request, 'pages/static_example.html')
