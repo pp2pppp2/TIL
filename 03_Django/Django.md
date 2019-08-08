@@ -62,3 +62,30 @@ class.objects.filter()
 
 .get() 겹치면 Error
 
+
+
+class.objects.order_by('id') or ('-id')
+
+filter(title__contains='??')
+
+filter(title__startswith='first')
+
+endswith
+
+
+
+
+
+admin.site.register(Article)
+
+
+
+## CRUD
+
+Create
+
+Read
+
+Update
+
+Delete
