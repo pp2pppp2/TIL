@@ -13,4 +13,5 @@ urlpatterns = [
     path('<int:article_pk>/update/', views.update, name='update'), # GET(edit), POST(update)
     path('<int:article_pk>/comment_create/', views.comments_create, name='comments_create'), 
     path('<int:comment_pk>/comment_delete/', views.comments_delete, name='comments_delete'), 
+    path('<int:article_pk>/comment_update/<int:comment_pk>', views.comments_update, name='comments_update'),
 ]

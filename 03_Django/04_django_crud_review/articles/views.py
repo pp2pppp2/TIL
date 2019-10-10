@@ -78,3 +78,15 @@ def comments_delete(request, comment_pk):
     article = comment.article
     comment.delete()
     return redirect('articles:detail', article.pk)
+
+def comments_update(request, article_pk, comment_pk):
+    article = Article.objects.get(pk=article_pk)
+    comments = article.comments.all()
+    comment = Comment.objects.get(pk=comment_pk)
+    if request.method == 'POST':
+        comment.content = request.POST.get('content')
+        comment.save()
+        return redirect('articles:detail', article_pk)
+    else:
+        context = {'article': article, 'com': comment, 'comments':comments}
+        return render(request, 'articles/comment_update.html', context)

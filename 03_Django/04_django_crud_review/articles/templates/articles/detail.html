@@ -10,17 +10,22 @@
     <p>글 수정 시간: {{ article.updated_at|date:"M, j, Y" }}</p>
     <hr>
     <p>댓 글 ({{ comments.count }})</p>
+    {% block detail %}
     {% for comment in comments %}
         
-            <form action="{% url 'articles:comments_delete' comment.pk %}" method="POST">
+        <form action="{% url 'articles:comments_delete' comment.pk %}" method="POST">
             {% csrf_token %}
             <li>
                 {{ comment.content }}
-                <input type="submit" value="글삭제" class = 'text-right'>        
+                <input type="submit" value='댓글 삭제' class = 'text-right'>        
             </li>
-            </form>
-
+                <a href="{% url 'articles:comments_update' article.pk comment.pk %}">[댓글 수정]</a>
+        </form>
+        <br>
+        {% empty %}
+            <p><b>댓글이 없네유.. 댓글좀유..</b></p>
     {% endfor %}
+    {% endblock %}
 
     <form action="{% url 'articles:comments_create' article.pk %}" method="POST">
         {% csrf_token %}
@@ -28,6 +33,7 @@
         <input type="text" id=comment_content name=comment_content>
         <input type="submit" value="[댓글 작성]">
     </form>
+    
     <hr>
     <form action="{% url 'articles:delete' article.pk %}" method="POST">
         {% csrf_token %}
