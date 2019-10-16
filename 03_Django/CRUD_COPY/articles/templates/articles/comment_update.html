@@ -1,0 +1,25 @@
+{% extends 'detail.html' %}
+
+{% block detail %}
+    {% for comment in comments %}
+        {% if comment != com %}
+            <form action="{% url 'articles:comments_delete' comment.pk %}" method="POST">
+            {% csrf_token %}
+            <li>
+                {{ comment.content }}
+                <input type="submit" value="글삭제" class = 'text-right'>        
+            </li>
+            <a href="{% url 'articles:comments_update' article.pk comment.pk %}">[댓글 수정]</a>
+            </form>
+        {% else %}
+            <!-- <h2 class="text-center">Comment Update</h2> -->
+            <form action="" method="POST">
+                {% csrf_token %}
+                <!-- <label for="content">COMMENT UPDATE</label> -->
+                <input type="text" id='content' name='content' value="{{ com.content }}">
+                <input type="submit" value="댓글 수정" class='btn btn-primary'>
+            </form>
+        {% endif %}
+        <br>
+    {% endfor %}
+{% endblock %}

@@ -16,7 +16,8 @@ def create(request):
     if request.method == 'POST':
         title = request.POST.get('title')
         content = request.POST.get('content')
-        article = Article(title=title, content=content)
+        image = request.FILES.get('image')
+        article = Article(title=title, content=content, image=image)
         article.save()
         return redirect('articles:detail', article.pk)
     # GET 요청일 때
@@ -60,6 +61,7 @@ def update(request, article_pk):
     if request.method == 'POST':
         article.title = request.POST.get('title')
         article.content = request.POST.get('content')
+        article.image = request.FILES.get('image')
         article.save()
         return redirect('articles:detail', article.pk)
     context = {'article': article}

@@ -1,14 +1,18 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block body %}
     <h2 class="text-center">NEW</h2>
-    <form action="" method="POST">
+    <img src="{% static 'images/yomi.jpg' %}" alt="yomi">
+    <img src="{% static 'articles/images/simpson.jpg' %}" alt="simpson">
+    <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <label for="title">Title</label>
         <input type="text" name='title' id='title' class = 'bg-secondary'><br>
         <label for="content">content</label>
-        <textarea name="content" id="content" cols="30" rows="10" class = 'bg-secondary'></textarea>
-        <br>
+        <textarea name="content" id="content" cols="30" rows="10" class = 'bg-secondary'></textarea><br>
+        <label for="image">Image</label>
+        <input type="file" id='image' name='image' accept="image/*"> <br>
         <input type="submit" value="글 작성" class = 'bg-secondary' >
     </form>
     <hr>
