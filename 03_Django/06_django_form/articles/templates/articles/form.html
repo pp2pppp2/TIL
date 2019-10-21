@@ -3,9 +3,9 @@
 
 {% block body %}
     {% if request.resolver_match.url_name == 'create' %}
-    <h2>CREATE</h2>
+    <h2 class='text-center'>CREATE</h2>
     {% else %}
-    <h2>UPDATE</h2>
+    <h2 class='text-center'>UPDATE</h2>
     {% endif %}
     <form action="" method="POST">
         {% csrf_token %}

@@ -1,25 +1,55 @@
 {% extends 'articles/base.html' %}
 
 {% block body %}
-    <h2>DETAIL</h2> <br>
+    <h2 class='text-center'>DETAIL</h2> <br>
     <p>글 번호 : {{ article.pk }} </p>
     <p>글 제목 : {{ article.title }} </p>
     <p>글 내용 : {{ article.content }} </p>
     <p>글 생성시간 : {{ article.created_at|date:"SHORT_DATE_FORMAT" }} </p>
     <p>글 수정시간 : {{ article.updated_at }} </p>
 
-    <a href="{% url 'articles:index' %}">[메인 페이지로]</a>
     <form action="{% url 'articles:delete' article.pk %}" method="POST">
         {% csrf_token %}
-        <input type="submit" value="글 삭제">
-    </form>
-    {% for comment in comments %}
-        <p> {{ comment.content }} </p>
-    {% endfor %}
+        <a href="{% url 'articles:index' %}">[메인 페이지]</a>
+        <input type="submit" value="글 삭제" class='btn btn-primary'>
+    </form><br>
+
+    <p><b>댓글 ({{ comments.count }})</b></p>
+        {% if request.resolver_match.url_name == 'comment_update' %}
+            {% for comment in comments %}
+                {% if comment.pk == comment_updated.pk and isupdate == 0 %}
+                    <form action="{% url 'articles:comment_update' article.pk comment.pk %}" method="POST"> 
+                        {% csrf_token %} 
+                        댓글 {{ forloop.revcounter }} :{{ comment_form_update }}
+                        <input type="submit" value="댓글수정" class='btn btn-primary'>
+                    </form>
+                {% else %}
+                    <form action="{% url 'articles:comment_delete' article.pk comment.pk %}" method="POST"> 
+                        {% csrf_token %} 
+                        댓글 {{ forloop.revcounter }} :{{ comment.content }}
+                        <a href="{% url 'articles:comment_update' article.pk comment.pk %}" class='btn btn-primary' >댓글 수정</a>
+                        <input type="submit" value="댓글삭제" class='btn btn-primary'>
+                    </form>
+                {% endif %}
+            {% empty %}
+                <p><b> 댓글이 없어유 ㅠ</b></p>
+            {% endfor %}
+        {% else %}
+            {% for comment in comments %}
+                <form action="{% url 'articles:comment_delete' article.pk comment.pk %}" method="POST"> 
+                    {% csrf_token %}
+                    댓글 {{ forloop.revcounter }} : {{ comment.content }}
+                    <a href="{% url 'articles:comment_update' article.pk comment.pk %}">댓글 수정</a>
+                    <input type="submit" value="댓글삭제" class='btn btn-primary'>
+                </form>
+            {% empty %}
+                <p><b> 댓글이 없어유 ㅠ</b></p>
+            {% endfor %}
+        {% endif %}
     <form action="{% url 'articles:comment_create' article.pk %}" method="POST">
         {% csrf_token %}
-        {{ comment_form.as_p }}
-        <input type="submit" value="댓글 작성">
+        {{ comment_form }}
+        <input type="submit" value="댓글 작성" class='btn btn-primary'>
     </form>
     <a href="{% url 'articles:update' article.pk %}">[글 수정]</a>
 {% endblock %}
