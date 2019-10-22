@@ -1,4 +1,5 @@
 {% load bootstrap4 %}
+{% load gravatar %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,12 +8,47 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     {% bootstrap_css %}
+    <style>
+        div > h3 {
+            color: #80ff80;
+        }
+        div > h3 > a{
+            color: #80ff80;
+        }
+        a {
+            color: #999999;
+        }
+        .upp{
+            text-transform: uppercase;
+        }
+    </style>
     <title>Document</title>
 </head>
 <body>
     <div class="container">
-    {% block body %}
-    {% endblock %}
+        {% if user.is_authenticated == False %}
+            <h3> 
+                <a href="{% url 'accounts:login' %}">LOGIN</a> |
+                <a href="{% url 'accounts:signup' %}">SIGNUP</a>
+            </h3>
+        {% else %}
+        <h3>
+            <img src="https://s.gravatar.com/avatar/{{ user.email|makemd5 }}?s=80&d=retro" alt="gravatar">
+            Hello, {{ user.username }} | 
+            <a href="{% url 'accounts:logout' %}">LOGOUT</a> |
+            <a href="{% url 'accounts:update' %}">USER UPDATE</a> |
+            <a href="{% url 'accounts:change_password' %}">CHANGE_PASSWORD</a> |
+            <form action="{% url 'accounts:delete' %}" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="회원탈퇴" class='btn btn-dark'>
+            </form>
+        </h3>
+        {% endif %}
+
+        {% block body %}
+        {% endblock %}
+
     </div>
+    {% bootstrap_javascript jquery='full' %}
 </body>
 </html>

@@ -11,7 +11,9 @@
     <form action="{% url 'articles:delete' article.pk %}" method="POST">
         {% csrf_token %}
         <a href="{% url 'articles:index' %}">[메인 페이지]</a>
-        <input type="submit" value="글 삭제" class='btn btn-primary'>
+        {% if article.user_id == request.user.pk %}
+            <input type="submit" value="글 삭제" class='btn btn-primary'>
+        {% endif %}
     </form><br>
 
     <p><b>댓글 ({{ comments.count }})</b></p>
@@ -39,17 +41,26 @@
                 <form action="{% url 'articles:comment_delete' article.pk comment.pk %}" method="POST"> 
                     {% csrf_token %}
                     댓글 {{ forloop.revcounter }} : {{ comment.content }}
-                    <a href="{% url 'articles:comment_update' article.pk comment.pk %}">댓글 수정</a>
-                    <input type="submit" value="댓글삭제" class='btn btn-primary'>
+                    작성자 : {{ comment.user }}
+                    {% if comment.user == request.user %}
+                        <a href="{% url 'articles:comment_update' article.pk comment.pk %}">댓글 수정</a>
+                        <input type="submit" value="댓글삭제" class='btn btn-primary'>
+                    {% endif %}
                 </form>
             {% empty %}
                 <p><b> 댓글이 없어유 ㅠ</b></p>
             {% endfor %}
         {% endif %}
-    <form action="{% url 'articles:comment_create' article.pk %}" method="POST">
-        {% csrf_token %}
-        {{ comment_form }}
-        <input type="submit" value="댓글 작성" class='btn btn-primary'>
-    </form>
-    <a href="{% url 'articles:update' article.pk %}">[글 수정]</a>
+    {% if user.is_authenticated %}
+        <form action="{% url 'articles:comment_create' article.pk %}" method="POST">
+            {% csrf_token %}
+            {{ comment_form }}
+            <input type="submit" value="댓글 작성" class='btn btn-primary'>
+        </form>
+    {% else %}
+        <a href="{% url 'accounts:login' %}">댓글을 입력하려면 로그인해주세요.</a>
+    {% endif %}
+    {% if article.user_id == request.user.pk %}
+        <a href="{% url 'articles:update' article.pk %}">[글 수정]</a>
+    {% endif %}
 {% endblock %}
