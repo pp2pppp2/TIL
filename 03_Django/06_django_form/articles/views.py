@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
 from .models import Article, Comment
 from .forms import ArticleForm, CommentForm
 from IPython import embed
@@ -8,9 +9,6 @@ import hashlib
 
 
 def index(request):
-
-
-
     #1. session 정보에서 visits_num 이라는 키로 접근해 값을 가져옴
     # 해당하는 키가 없으면 0을 가져옴.
     visits_num = request.session.get('visits_num', 0)
@@ -20,8 +18,6 @@ def index(request):
 
     #3. session data를 수정하면 Django는 수정한 내용을 알 수 없어서 작성하는 거
     request.session.modified = True
-
-
 
     articles = Article.objects.all()
     context = { 'articles': articles, 'visits_num':visits_num, }
@@ -63,9 +59,10 @@ def create(request):
 def detail(request, article_pk):
     article = get_object_or_404(Article, pk=article_pk)
     comment = article.comments.all()
+    person = get_object_or_404(get_user_model(), pk=article.user.pk)
     comment_form = CommentForm()
     # article = Article.objects.get(pk=article_pk)
-    context = {'article':article, 'comments' : comment, 'comment_form':comment_form, }
+    context = {'article':article, 'comments' : comment, 'comment_form':comment_form, 'person':person, }
     return render(request, 'articles/detail.html', context)
 
 @require_POST
@@ -167,3 +164,32 @@ def comment_update(request, article_pk, comment_pk):
         'isupdate' : isupdate ,
         }
     return render(request, 'articles/detail.html', context)
+
+@login_required
+def like(request, article_pk):
+    article = get_object_or_404(Article, pk=article_pk)
+    user = request.user
+    
+    # 해당 게시글에 좋아요를 누른 사람들 중에서 user.pk(현재 요청 유저)를 가진 user가 존재하면
+    if article.like_users.filter(pk=user.pk).exists():
+        # 좋아요 취소
+        article.like_users.remove(user)
+    else:
+        # 좋아요 누름
+        article.like_users.add(user)
+    return redirect('articles:index')
+
+@login_required
+def follow(request, article_pk, user_pk):
+    # 게시글을 작성한 유저
+    person = get_object_or_404(get_user_model(), pk=user_pk)
+    # 해당 함수로 요청을 보낸 사람
+    user = request.user
+    
+    # 해당 person 의 followers 중에서 해당유저가 존재하면
+    if person.followers.filter(pk=user.pk).exists():
+        # unFollow
+        person.followers.remove(user)
+    else:
+        person.followers.add(user)
+    return redirect('articles:detail', article_pk)
