@@ -1,0 +1,36 @@
+{% load bootstrap4 %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://kit.fontawesome.com/3e7f5341c7.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    {% bootstrap_css %}
+    <style>
+        div > h3 {
+            color: #606474;
+        }
+        div > h3 > a{
+            color: #819281;
+        }
+        a {
+            color: #999999;
+        }
+        .upp{
+            text-transform: uppercase;
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        {% include 'articles/_nav.html' %}
+        {% block body %}
+        {% endblock %}
+    </div>
+    {% bootstrap_javascript jquery='full' %}
+</body>
+</html>

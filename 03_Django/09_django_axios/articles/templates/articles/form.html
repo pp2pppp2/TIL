@@ -1,0 +1,35 @@
+{% extends 'articles/base.html' %}
+{% load bootstrap4 %}
+
+{% block body %}
+    {% if request.resolver_match.url_name == 'create' %}
+    <h2 class='text-center'>CREATE</h2>
+    {% else %}
+    <h2 class='text-center'>UPDATE</h2>
+    {% endif %}
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        <!-- {% for field in form %}
+            {{ field.label_tag }}
+            {{ field }}
+        {% endfor %} -->
+
+        <!-- <label for="title">Title</label>
+        <input type="text" id='title' name='title'><br>
+        <label for="content">Content</label>
+        <textarea name="content" id="content" cols="30" rows="10"></textarea><br> -->
+        
+        <!-- {{ form.as_p }}
+        <input type="submit" value="글 작성"> -->
+
+        {% bootstrap_form form layout='horizontal' %}
+        {% buttons submit="Submit" reset="Cancel" %}
+        {% endbuttons %}
+    </form>
+    {% if request.resolver_match.url_name == 'create' %}
+    <a href="{% url 'articles:index' %}">[메인]</a>
+    {% else %}
+    <a href="{% url 'articles:detail' form.instance.pk %} ">[뒤로 가기]</a>
+    {% endif %}
+{% endblock %}
