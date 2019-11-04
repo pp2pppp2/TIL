@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    img {
+      width : 300px;
+      height: 300px;
+    }
+  </style>
+</head>
+<body>
+  <h1>댕댕이</h1>
+  <div class="animals"></div>
+  <button id='dogbtn'> 개사진 내놔</button>
+
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script>
+    const getDogImg = () => {
+      axios.get('https://dog.ceo/api/breeds/image/random')
+      .then(res => {
+        const imgUrl = res.data.message
+        const imgTag = document.createElement('img')
+        imgTag.src = imgUrl
+        imgTag.alt = 'dogs'
+        document.querySelector('.animals').append(imgTag)
+      })
+    .catch(err => console.log(err))
+    }
+    const dogbtn = document.querySelector('#dogbtn')
+    dogbtn.addEventListener('click', getDogImg)
+  </script>
+</body>
+</html>

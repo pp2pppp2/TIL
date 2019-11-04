@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>My Shopping list</title>
+</head>
+<body>
+  <h1> MY Shopping list </h1>
+  Enter a new item : <input id="item-input" type="text">
+  <button id="add-button">Add Item</button>
+  <ul id="shopping-list">
+  </ul>
+  <script>
+    const button = document.querySelector('#add-button')
+    const itemInput = document.querySelector('#item-input')
+    const ul = document.querySelector('#shopping-list')
+    button.addEventListener('click', function() {      
+      if (itemInput.value !== ''){
+        const shoplist = document.createElement('li')
+        shoplist.innerText = `${itemInput.value}`
+        itemInput.value = ''
+        deletebtn = document.createElement('button')
+        deletebtn.innerText = '삭제'
+        deletebtn.style.marginLeft = '150px'
+        shoplist.append(deletebtn)
+        deletebtn.addEventListener('click', function(){
+          shoplist.remove()
+        })
+        ul.append(shoplist)
+      }
+    })
+    
+    const delbtn = document.querySelectorAll('#delbtn')
+
+    delbtn[0].addEventListener('click', function(){
+      console.log('나오나오')
+    })
+
+  </script>
+</body>
+</html>
