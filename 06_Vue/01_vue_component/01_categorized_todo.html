@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    .todo-list {
+      display: inline-block;
+      width: 33%;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="todo-list">
+      <h2>취업 준비</h2>
+      <input type="text" v-model="newTodo" @keyup.enter="addTodo">
+      <button @click="addTodo">+</button>
+      <li v-for="todo in todos" :key="todo.id">
+        <span>{{ todo.content }}</span>
+        <button @click="removeTodo(todo.id)">x</button>
+      </li>
+    </div>
+    <div class="todo-list">
+      <h2>SSAFY</h2>
+      <input type="text" v-model="SSAFYTodo" @keyup.enter="addTodosf">
+      <button @click="addTodosf">+</button>
+      <li v-for="todo in SSAFYTodos" :key="todo.id">
+        <span>{{ todo.content }}</span>
+        <button @click="removeTodosf(todo.id)">x</button>
+      </li>
+    </div>
+    <div class="todo-list">
+      <h2>기타</h2>
+      <input type="text" v-model="GTTodo" @keyup.enter="addTodogt">
+      <button @click="addTodogt">+</button>
+      <li v-for="todo in GTTodos" :key="todo.id">
+        <span>{{ todo.content }}</span>
+        <button @click="removeTodogt(todo.id)">x</button>
+      </li>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        todos: [],
+        SSAFYTodos: [],
+        GTTodos: [],
+        newTodo: '',
+        SSAFYTodo: '',
+        GTTodo:'',
+      },
+      methods: {
+				addTodo: function() {
+          if(this.newTodo){
+            this.todos.push({
+              id:Date.now(),
+              content:this.newTodo,
+              completed:false,
+            })
+            this.newTodo = ''
+          }
+        },
+        addTodosf: function() {
+          if(this.SSAFYTodo){
+            this.SSAFYTodos.push({
+              id:Date.now(),
+              content:this.SSAFYTodo,
+              completed:false,
+            })
+            this.SSAFYTodo = ''
+          }
+        },
+        addTodogt: function() {
+          if(this.GTTodo){
+            this.GTTodos.push({
+              id:Date.now(),
+              content:this.GTTodo,
+              completed:false,
+            })
+            this.GTTodo = ''
+          }
+        },
+				// 어제는 clearCompleted로 한번에 완료된 목록 삭제
+				// 이번에는 특정 todo를 삭제!
+				removeTodo: function(todoId) {
+          this.todos = this.todos.filter((todo) => {
+            return todo.id !== todoId
+          })
+        },
+        removeTodosf: function(todoId) {
+          this.SSAFYTodos = this.SSAFYTodos.filter((todo) => {
+            return todo.id !== todoId
+          })
+        },
+        removeTodogt: function(todoId) {
+          this.GTTodos = this.GTTodos.filter((todo) => {
+            return todo.id !== todoId
+          })
+				}
+      }
+    })
+  </script>
+</body>
+</html>

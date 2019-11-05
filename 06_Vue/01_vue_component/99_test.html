@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  
+</head>
+<body>
+  <div id="app">
+    <div class="todo-list">
+      <input type="text" v-model="newTodo" @keyup.enter="addTodo('newTodo', newTodo)">
+      <button @click="addTodo('newTodo', newTodo)">+</button>
+      <li v-for="todo in todos" v-if="todo.test === 'newTodo'" :key="todo.id">
+        <span>{{ todo.content }}</span>
+        <button @click="removeTodo(todo.id)">x</button>
+      </li>
+    </div>
+    <div class="todo-list">
+      <input type="text" v-model="newTodo2" @keyup.enter="addTodo('SSAFY', newTodo2)">
+      <button @click="addTodo('SSAFY', newTodo2)">+</button>
+      <li v-for="todo in todos" v-if="todo.test === 'SSAFY'" :key="todo.id">
+        <span>{{ todo.content }}</span>
+        <button @click="removeTodo(todo.id)">x</button>
+      </li>
+    </div>
+    <div class="todo-list">
+      <input type="text" v-model="newTodo3" @keyup.enter="addTodo('GTT', newTodo3)">
+      <button @click="addTodo('GTT', newTodo3)">+</button>
+      <li v-for="todo in todos" v-if="todo.test === 'GTT' " :key="todo.id">
+        <span>{{ todo.content }}</span>
+        <button @click="removeTodo(todo.id)">x</button>
+      </li>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        todos: [],
+        newTodo: '',
+        newTodo2: '',
+        newTodo3: '',
+      },
+      methods: {
+				addTodo: function(str, todo) {
+          if(todo){
+            this.todos.push({
+              id:Date.now(),
+              content:todo,
+              completed:false,
+              test:str,
+            })
+            this.newTodo = ''
+            this.newTodo2 = ''
+            this.newTodo3 = ''
+          }
+				},
+				// 어제는 clearCompleted로 한번에 완료된 목록 삭제
+				// 이번에는 특정 todo를 삭제!
+				removeTodo: function(todoId) {
+          this.todos = this.todos.filter((todo) => {
+            return todo.id !== todoId
+          })
+				}
+      }
+    })
+  </script>
+</body>
+</html>

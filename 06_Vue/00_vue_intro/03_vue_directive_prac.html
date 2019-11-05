@@ -29,9 +29,11 @@
       methods:{
         getdogImage : function() {
           const URL = 'https://dog.ceo/api/breeds/image/random'
+          const test = 'asjsife'
           axios.get(URL)
-          .then(res => {
-            this.images.push({ url:res.data.message })
+          .then(function(res) {
+            // this.images.push({ url:res.data.message })
+            console.log(this)
           })
         }
       }

@@ -5,56 +5,138 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <style>
+    .completed {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+  </style>
 </head>
 <body>
   <div id="app">
-    <li v-for="todo in todos" v-if="!todo.completed" @click="check(todo)">
-      {{ todo.content }}
-    </li>
-    <li v-else @click="check(todo)">{{ todo.content }}  [완료]</li>
-    <div>
-      <input type="text" v-model="newtodo" @keyup.enter="addtodo()">
+    <select v-model="status">
+      <option value="all">all</option>
+      <option value="active">active</option>
+      <option value="completed">completed</option>
+    </select>
+    <div :style="{ color:activeColor, fontSize: fontSize + 'px' }">
+      HAVE TO DO
     </div>
+    <!-- kEY는 Vue의 각각의 노드(HTML Element)에 대해 고유한 ID를 지정할 때 사용 
+    v-for 디렉티브로 반복되어 렌더링 된 HTML elelment를 Vue는 :Key로 기억된다.
+    -->
+
+    <li v-for="todo in computedTodosByStatus" :class="todo.completed ? 'completed' : '' " :key="todo.id">
+      <input type="checkbox" v-model="todo.completed">
+      <span>{{ todo.content }}</span>
+    </li>
+    <div>
+      <input type="text" v-model="newTodo" @keyup.enter="addtodo()">
+      <button @click='addtodo'>+</button>
+    </div>
+    <footer>
+      <button @click='clearCompleted'>Clear Completed</button>
+    </footer>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script>
+    const STORAGE_KEY = 'vue-todos'
+    const todoStorage = {
+      fetch:function() {
+        // local에서 아이템을 가져옴
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]') // STR -> JSON
+      },
+      save:function(todos){
+        // local에 아이템으 저장
+        // stringify : JSON -> String
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(todos))
+      }
+    }
     const app = new Vue({
       el:'#app',
       data:{
+        activeColor: 'red',
+        fontSize: 30,
         todos:[
         {
+          id : 1,
           content :'점심 메뉴 고민하기',
           completed : true,
         },
         {
+          id : 2,
           content :'점심 메뉴 사다리',
           completed : true,
         },
         {
+          id : 3,
           content :'점심 메뉴 먹기',
           completed : false,
         },
         {
+          id : 4,
           content :'저녁 메뉴 고민하기',
           completed : false,
         },
         ],
-        newtodo: '',
+        newTodo: '',
+        status : 'all',
       },
       methods:{
         check: function(todo){
           todo.completed ^= true
         },
         addtodo: function(){
-          if(this.newtodo !== ''){
+          if(this.newTodo.length !== 0){
             this.todos.push({
-              content:this.newtodo,
+              id:Date.now(),
+              content:this.newTodo,
               completed:false,
             })
           }
-          this.newtodo = ''
-        }
-      }
+          this.newTodo = ''
+          
+        },
+        clearCompleted: function(){
+          const notCompletedTodos = this.todos.filter((todo) => {
+            return !todo.completed
+          })
+          this.todos = notCompletedTodos
+        },
+      },
+      computed:{
+        computedTodosByStatus:function(){
+          // 진행중인일(완료되지 않은 일)
+          if (this.status === 'active'){
+            return this.todos.filter((todo) => {
+              return !todo.completed
+            })
+          }
+          // 완료
+          if (this.status === 'completed'){
+            return this.todos.filter((todo) => {
+              return todo.completed
+            })
+          }
+          // 모두
+          return this.todos
+        },
+      },
+      // watch : vue 인스턴스의 data 변화(경)를 관찰하고 이에 반응
+      // 데이터 변경에 대한 응답으로 비동기식 또는 시간이 많이 소요되는 조작을 수행할 때 적합
+      watch: {
+        todos:{
+          // handler 특정 데이터가 변경 되었을때  그걸 관찰 하고 있다가 변화가 일어나면 실행 할 함수
+            handler: function(todos) {
+            todoStorage.save(todos)
+          },
+        },
+        // deep: Object의 nested itemㄷ르도 관찰 유무
+        deep:true,
+      },
+      mounted: function(){
+          this.todos =todoStorage.fetch()
+      },
     })
   </script>
 </body>
