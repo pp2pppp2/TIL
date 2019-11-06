@@ -35,6 +35,11 @@
         reset: function(){
           this.count = 0
         }
+      },
+      created:function(){
+        window.addEventListener('keypress', () => {
+          console.log(this.plus())
+        })
       }
     })
   </script>
