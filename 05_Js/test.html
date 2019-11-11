@@ -5,22 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <style>
+    .red {
+      color: red;
+    }
+    .blue{
+      color: blue;
+    }
+  </style>
 </head>
 <body>
   <div id="app">
-    <button @click="addCount">+1</button>
-    <h2> Counter: {{ count }}</h2>
+    <button @click="tColor">Toggle</button>
+    <div :class="red ? 'red' : 'blue' ">
+      빨강과 파랑을 섞으면 보라색이 됩니다.
+    </div>
+    <div style="color:red; font-size: 30px;"></div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
   <script>
     const app = new Vue({
-      el:"#app",
+      el:'#app',
       data:{
-        count:0,
+        red:true,
       },
       methods:{
-        addCount:function(){
-          this.count++
+        tColor(){
+          this.red = !this.red
         }
       }
     })
